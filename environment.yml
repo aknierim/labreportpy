@@ -1,0 +1,24 @@
+name: labreportpy-dev
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - Pillow
+  - black
+  - colour
+  - ipython
+  - matplotlib
+  - numpy>=1.22
+  - numpydoc
+  - pandas
+  - pre-commit
+  - pydata-sphinx-theme
+  - rich
+  - scipy
+  - setuptools
+  - sphinx
+  - sphinx-automodapi
+  - sphinx-design
+  - towncrier
+  - uncertainties
