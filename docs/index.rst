@@ -69,7 +69,7 @@ TU Dortmund university.
 
         +++
 
-        .. button-ref:: api-reference/index
+        .. button-ref:: api_reference/index
             :expand:
             :color: primary
             :click-parent:
