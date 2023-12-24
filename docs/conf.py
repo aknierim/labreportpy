@@ -19,7 +19,12 @@ author = setup_metadata["author"]
 copyright = "{}.  Last updated {}".format(
     setup_metadata["author"], datetime.datetime.now().strftime("%d %b %Y %H:%M")
 )
+
 python_requires = setup_options["python_requires"]
+
+rst_epilog = f"""
+.. |python_requires| replace:: {python_requires}
+"""
 
 version = labreportpy.__version__
 # The full version, including alpha/beta/rc tags.
@@ -37,20 +42,35 @@ extensions = [
     "sphinx_automodapi.smart_resolver",
     "numpydoc",
     "sphinx_design",
-    'IPython.sphinxext.ipython_console_highlighting',
-    'IPython.sphinxext.ipython_directive',
+    "IPython.sphinxext.ipython_console_highlighting",
+    "IPython.sphinxext.ipython_directive",
 ]
 
 
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+
+def setup(app):
+    app.add_css_file("labreportpy.css")
+
+
+nitpick_ignore = [
+    ("py:class", "uncertainties.core.ufloat")
+]
+
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "changes",
+]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'pydata_sphinx_theme'
-html_static_path = ['_static']
+html_theme = "pydata_sphinx_theme"
+html_static_path = ["_static"]
 
 html_theme_options = {
     "github_url": "https://github.com/aknierim/labreportpy",
