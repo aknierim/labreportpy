@@ -1,12 +1,3 @@
-r"""Simple class to convert data from a DataFrame to
-a LaTeX tabularx/tabularray readable format. Either
-print out and copy the output of 'table_writer' or
-(better) save it to a .tex file and use
-```
-\input{your_table_file.tex}
-```
-inside your tabularx or tabularray environment.
-"""
 import pandas as pd
 from pathlib import Path
 
@@ -20,12 +11,91 @@ class TableWriter:
     or tabularray environment.
     """
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, base_dir: str or Path="") -> None:
+        if not isinstance(base_dir, Path):
+            base_dir = Path(base_dir)
 
-    def write(self) -> str:
+        self.base_dir = base_dir
+
+
+    def __call__(
+        self,
+        df: pd.DataFrame,
+        output_file: str | Path,
+        quantities: list=[],
+        units: list=[],
+        colspec: list=[],
+        table_options: list= [],
+        caption: str="",
+        label: str="",
+        header_math_mode: bool=True,
+        booktabs: bool=True
+        ):
         """
-        Writes a table to a .tex file.
+        Writes data from a pandas.DataFrame to a full
+        table environment compatible with tabularray.
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            DataFrame that will be converted to a LaTeX
+            table.
+        output_file : str or pathlib.Path
+            Output file path. If `base_dir` is set when
+            initializing the class, the path will be
+            `<base_dir>/<output_file>`.
+        quantities : list, optional
+            Quantities set as the column names. If left
+            empty, the column names of the DataFrame are
+            used instead.
+        units : list, optional
+            Units for the quantities. If a quantity has
+            no unit, make sure to parse an empty string
+            at the respective list index. If left empty
+            entirely, a list of the same length as
+            `quantities` containing empty strings is used.
+        colspec : list or str, optional
+            The column specifiers. If empty, all columns
+            are assumed to be of the `siunitx` `S` type.
+        table_options : list, optional
+            Additional table options. See the tabularray docs
+            http://mirrors.ctan.org/macros/latex/contrib/tabularray/tabularray.pdf
+            for more information.
+        caption : str, optional
+            Caption of the table.
+        label : str
+            Label of the table.
+        header_math_mode : bool, optional, default=`True`
+            If `True`, this sets the first row to math mode and
+            also add the guard keyword to protect the column names.
+        booktabs : bool, optional, default=`True`
+            If `True`, use the `toprule`, `midrule`, and `bottomrule`
+            macros, that are defined by the `booktabs` package. If
+            `False`, the `hline` macro is used instead.
+        """
+        self.df = df
+
+        return self._write_table(
+            df,
+            output_file,
+            quantities,
+            units,
+            colspec,
+            table_options,
+            caption,
+            label,
+            header_math_mode,
+            booktabs,
+        )
+
+    def write_inner(self, write_to_file: bool=True) -> str:
+        """
+        Writes a inner table to a .tex file.
+
+        Parameters
+        ----------
+        write_to_file : bool, optional, default=`True`
+            If `True`, writes inner table to `.tex` file.
 
         Returns
         -------
@@ -35,14 +105,126 @@ class TableWriter:
         table = ""
         for _, series in self.df.iterrows():
             v = [str(s) for s in series.values]
-            s = " & ".join(v) + r" \\ " + "\n"
+            s = " & ".join(v) + r" \\" + "\n"
             table += s
 
-        if self.output_file:
-            with open(self.output_file, "w") as f:
+        if write_to_file and self.output_file:
+            with open(self.base_dir / self.output_file, "w") as f:
                 f.write(table)
 
         return table
+
+    def _write_table(
+        self,
+        df: pd.DataFrame,
+        output_file: str or Path,
+        quantities: list=[],
+        units: list=[],
+        colspec: list or str=[],
+        table_options: list=[],
+        caption: str="",
+        label: str="",
+        header_math_mode: bool=True,
+        booktabs: bool=True,
+    ) -> None:
+        """
+        Writes data from a pandas.DataFrame to a full
+        table environment compatible with tabularray.
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            DataFrame that will be converted to a LaTeX
+            table.
+        output_file : str or pathlib.Path
+            Output file path. If `base_dir` is set when
+            initializing the class, the path will be
+            `<base_dir>/<output_file>`.
+        quantities : list, optional
+            Quantities set as the column names. If left
+            empty, the column names of the DataFrame are
+            used instead.
+        units : list, optional
+            Units for the quantities. If a quantity has
+            no unit, make sure to parse an empty string
+            at the respective list index. If left empty
+            entirely, a list of the same length as
+            `quantities` containing empty strings is used.
+        colspec : list or str, optional
+            The column specifiers. If empty, all columns
+            are assumed to be of the `siunitx` `S` type.
+        table_options : list, optional
+            Additional table options. See the tabularray docs
+            http://mirrors.ctan.org/macros/latex/contrib/tabularray/tabularray.pdf
+            for more information.
+        caption : str, optional
+            Caption of the table.
+        label : str
+            Label of the table.
+        header_math_mode : bool, optional, default=`True`
+            If `True`, this sets the first row to math mode and
+            also add the guard keyword to protect the column names.
+        booktabs : bool, optional, default=`True`
+            If `True`, use the `toprule`, `midrule`, and `bottomrule`
+            macros, that are defined by the `booktabs` package. If
+            `False`, the `hline` macro is used instead.
+        """
+        if not output_file:
+            raise ValueError("No output file specified.")
+
+        output_file = Path(output_file)
+
+        if quantities == []:
+            quantities = self.df.columns.values.tolist()
+        if units == []:
+            units = [""] * len(quantities)
+        if colspec == []:
+            colspec = ["S"] * len(quantities)
+        colspec = "".join(colspec)
+        if header_math_mode:
+            hmm = "row{1} = {guard, mode=math},"
+
+        opts = table_options
+
+        table = r"\begin{table}" + "\n" + r"\centering" + "\n"
+        table += rf"\caption{{{caption}}}" + "\n" + rf"\label{{{label}}}" + "\n"
+        tblr = rf"\begin{{tblr}}{{colspec={{{colspec}}},{hmm}{','.join(opts)}}}"
+
+        head_list = []
+        for qty, unit in zip(quantities, units):
+            if unit != "":
+                s = str(qty) + r" \mathbin{/} " + r"\unit{unit}"
+            else:
+                s = str(qty)
+
+            head_list.append(s)
+
+        header = ""
+        if booktabs:
+            header = "\n" + r"\toprule" + "\n"
+        else:
+            header = r"\hline" + "\n"
+        header += " & ".join(head_list) + r" \\" + "\n"
+
+        if booktabs:
+            header += r"\midrule" + "\n"
+        else:
+            header = r"\hline" + "\n"
+
+        body = self.write_inner(write_to_file=False)
+
+        if booktabs:
+            footer = r"\bottomrule" + "\n"
+        else:
+            footer = r"\hline" + "\n"
+
+        tblr += header + body + footer
+        tblr += r"\end{tblr}" + "\n"
+
+        table += tblr + r"\end{table}"
+
+        with open(self.base_dir / output_file, "w") as f:
+            f.write(table)
 
 
     def from_df(

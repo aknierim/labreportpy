@@ -1,7 +1,7 @@
-from .df_to_table import df_to_table
+from .print_df import print_df
 from .table_writer import TableWriter
 
 __all__ = [
-    "df_to_table",
+    "print_df",
     "TableWriter"
 ]
