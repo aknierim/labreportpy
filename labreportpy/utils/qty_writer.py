@@ -4,6 +4,10 @@ from uncertainties import ufloat, ufloat_fromstr
 
 
 class QTYWriter():
+    """
+    A simple class to write quantities to a .tex
+    file.
+    """
 
     def __init__(self, build_dir: str or Path="") -> None:
         if build_dir == "" or build_dir == Path(""):
@@ -26,9 +30,13 @@ class QTYWriter():
 
         Parameters
         ----------
-        val: ufloat
+        val : ufloat
             Value/quantity to write to file.
-        unit: 
+        unit : str
+            Unit of the quantity. If left empty, a
+            number ``\\num{}`` is written instead.
+        prec : int
+            Precision for rounding.
         filename: str
             Name of the file to write to.
         """

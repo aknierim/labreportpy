@@ -5,11 +5,10 @@ on the background color of either the used colormap or the figure.
 from matplotlib import cm
 from PIL import ImageColor
 
-__all__ = ["auto_color", "auto_color_cmap"]
-
 
 def auto_color(color, tolerance=186):
-    """Changes color of an object to black or white depending
+    """
+    Changes color of an object to black or white depending
     on the (background) color you pass to this function.
 
     Parameters
@@ -35,7 +34,8 @@ def auto_color(color, tolerance=186):
 
 
 def auto_color_cmap(data_value, cmap, tolerance=0.45):
-    """Changes color of an object to black or white depending
+    """
+    Changes color of an object to black or white depending
     on the colormap and the data_value you pass to this function.
 
     Parameters

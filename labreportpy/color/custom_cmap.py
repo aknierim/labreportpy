@@ -8,15 +8,18 @@ from matplotlib.colors import LinearSegmentedColormap
 
 
 def custom_cmap(color_list: list) -> LinearSegmentedColormap:
-    """Creates a colormap to a given list of colors.
+    """
+    Creates a colormap to a given list of colors.
     Also provides a preview of the colormap via plt.imshow().
-    Parameters:
-    -----------
-    ramp_colors: list
+
+    Parameters
+    ----------
+    ramp_colors : list
         List of hexadecimal color codes with leading number sign (#).
-    Returns:
-    --------
-    cmap: LinearSegmentedColormap
+
+    Returns
+    -------
+    cmap : LinearSegmentedColormap
         A colormap containing the given colors.
     """
 
