@@ -30,6 +30,9 @@ MANIFEST
 docs/api
 docs/_build
 
+# tex (at least for now)
+*.tex
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
