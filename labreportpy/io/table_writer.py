@@ -11,7 +11,7 @@ class TableWriter:
     or tabularray environment.
     """
 
-    def __init__(self, base_dir: str or Path="") -> None:
+    def __init__(self, base_dir: str or Path = "") -> None:
         if not isinstance(base_dir, Path):
             base_dir = Path(base_dir)
 
@@ -22,15 +22,15 @@ class TableWriter:
         self,
         df: pd.DataFrame,
         output_file: str | Path,
-        quantities: list=[],
-        units: list=[],
-        colspec: list=[],
-        table_options: list= [],
-        caption: str="",
-        label: str="",
-        header_math_mode: bool=True,
-        booktabs: bool=True
-        ):
+        quantities: list = [],
+        units: list = [],
+        colspec: list = [],
+        table_options: list = [],
+        caption: str = "",
+        label: str = "",
+        header_math_mode: bool = True,
+        booktabs: bool = True,
+    ):
         """
         Writes data from a pandas.DataFrame to a full
         table environment compatible with tabularray.
@@ -88,7 +88,8 @@ class TableWriter:
             booktabs,
         )
 
-    def write_inner(self, write_to_file: bool=True) -> str:
+
+    def write_inner(self, write_to_file: bool = True) -> str:
         """
         Writes a inner table to a .tex file.
 
@@ -114,18 +115,19 @@ class TableWriter:
 
         return table
 
+
     def _write_table(
         self,
         df: pd.DataFrame,
         output_file: str or Path,
-        quantities: list=[],
-        units: list=[],
-        colspec: list or str=[],
-        table_options: list=[],
-        caption: str="",
-        label: str="",
-        header_math_mode: bool=True,
-        booktabs: bool=True,
+        quantities: list = [],
+        units: list = [],
+        colspec: list or str = [],
+        table_options: list = [],
+        caption: str = "",
+        label: str = "",
+        header_math_mode: bool = True,
+        booktabs: bool = True,
     ) -> None:
         """
         Writes data from a pandas.DataFrame to a full
@@ -174,6 +176,21 @@ class TableWriter:
 
         output_file = Path(output_file)
 
+        hrules = dict(
+            {
+                True: {
+                    "header": "\n" + r"\toprule" + "\n",
+                    "midrule": r"\midrule" + "\n",
+                    "footer": r"\bottomrule" + "\n",
+                },
+                False: {
+                    "header": r"\hline" + "\n",
+                    "midrule": r"\hline" + "\n",
+                    "footer": r"\hline" + "\n",
+                },
+            }
+        )
+
         if quantities == []:
             quantities = self.df.columns.values.tolist()
         if units == []:
@@ -187,7 +204,8 @@ class TableWriter:
         opts = table_options
 
         table = r"\begin{table}" + "\n" + r"\centering" + "\n"
-        table += rf"\caption{{{caption}}}" + "\n" + rf"\label{{{label}}}" + "\n"
+        table += rf"\caption{{{caption}}}"
+        table += "\n" + rf"\label{{{label}}}" + "\n"
         tblr = rf"\begin{{tblr}}{{colspec={{{colspec}}},{hmm}{','.join(opts)}}}"
 
         head_list = []
@@ -199,24 +217,14 @@ class TableWriter:
 
             head_list.append(s)
 
-        header = ""
-        if booktabs:
-            header = "\n" + r"\toprule" + "\n"
-        else:
-            header = r"\hline" + "\n"
+        header = hrules[booktabs]["header"]
         header += " & ".join(head_list) + r" \\" + "\n"
 
-        if booktabs:
-            header += r"\midrule" + "\n"
-        else:
-            header = r"\hline" + "\n"
+        header += hrules[booktabs]["midrule"]
 
         body = self.write_inner(write_to_file=False)
 
-        if booktabs:
-            footer = r"\bottomrule" + "\n"
-        else:
-            footer = r"\hline" + "\n"
+        footer = hrules[booktabs]["footer"]
 
         tblr += header + body + footer
         tblr += r"\end{tblr}" + "\n"
@@ -227,11 +235,7 @@ class TableWriter:
             f.write(table)
 
 
-    def from_df(
-        self,
-        df: pd.DataFrame,
-        output_file: str or Path
-    ) -> None:
+    def from_df(self, df: pd.DataFrame, output_file: str or Path) -> None:
         """
         Initializes the class with data from a DataFrame.
 
@@ -247,9 +251,7 @@ class TableWriter:
 
 
     def from_file(
-        self,
-        input_file: str or Path,
-        output_file: str or Path=None
+        self, input_file: str or Path, output_file: str or Path = None
     ) -> str:
         """
         Initializes the class with data from a file.
@@ -273,11 +275,7 @@ class TableWriter:
             # read data from .txt, header is first row, use
             # whitespace as delimiter
             self.df = pd.read_csv(
-                input_file,
-                header=None,
-                delim_whitespace=True,
-                comment='#'
+                input_file, header=None, delim_whitespace=True, comment="#"
             )
 
         self.output_file = output_file
-
