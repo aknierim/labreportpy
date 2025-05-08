@@ -2,8 +2,47 @@
 requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "pyvisgen"
+dynamic = ["version"]
+description = "Small collection of tools for lab reports in physics."
+readme = "README.md"
+authors = [
+  { name = "Anno Knierim" },
+]
+maintainers = [
+  { name = "Anno Knierim", email = "anno.knierim@tu-dortmund.de" },
+]
+license = { text = "MIT" }
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Development Status :: 4 - Beta",
+]
+
+requires-python = ">=3.11"
+
+dependencies = [
+  "click",
+  "matplotlib",
+  "numpy",
+  "pandas",
+  "scipy",
+  "toml",
+  "tqdm",
+  "rich",
+]
+
 [tool.setuptools_scm]
 write_to = "labreportpy/_version.py"
+
+[tool.setuptools.packages.find]
+where = ["."]
 
 [tool.towncrier]
     package = "labreportpy"
