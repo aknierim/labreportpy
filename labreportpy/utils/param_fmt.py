@@ -1,12 +1,10 @@
-# Formats params and uncertainties to a combined string for printing.
+"""
+Formats params and uncertainties to a combined string for printing.
+"""
 import numpy as np
 
 
-def fmt(
-    params: np.ndarray,
-    cov: np.ndarray,
-    fmt=3
-) -> np.ndarray:
+def fmt(params: np.ndarray, cov: np.ndarray, fmt=3) -> np.ndarray:
     """Calculates uncertainties and formats params and uncertainties
     to a string for printing. Result: param ± uncertainty
 

@@ -3,13 +3,25 @@ import numpy as np
 from uncertainties import ufloat, ufloat_fromstr
 
 
-class QTYWriter():
+class QTYWriter:
     """
     A simple class to write quantities to a .tex
     file.
+
+    Parameters
+    ----------
+    build_dir : str or Path
+        Path to the base directory.
     """
 
-    def __init__(self, build_dir: str or Path="") -> None:
+    def __init__(self, build_dir: str or Path = "") -> None:
+        """Initializes the QTYWriter class.
+
+        Parameters
+        ----------
+        build_dir : str or Path
+            Path to the base directory.
+        """
         if build_dir == "" or build_dir == Path(""):
             raise ValueError("No base directory provided!")
 
@@ -18,13 +30,12 @@ class QTYWriter():
         if not Path(self.build_dir).is_dir():
             Path(self.build_dir).mkdir(parents=True, exist_ok=True)
 
-
     def write_value(
         self,
         val: ufloat,
-        unit: str="",
-        prec: int=3,
-        filename: str or Path=""
+        unit: str = "",
+        prec: int = 3,
+        filename: str or Path = "",
     ) -> None:
         """Writes given value/quantity to .tex file.
 
@@ -67,4 +78,3 @@ class QTYWriter():
 
         with open(self.build_dir + "/" + filename, "w") as f:
             f.write(value)
-

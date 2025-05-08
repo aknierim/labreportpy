@@ -10,9 +10,9 @@ def fit(
     func,
     xdata: np.ndarray,
     ydata: np.ndarray,
-    p0=None,
+    p0: np.ndarray | list | None = None,
     fmt: int = 3,
-    title: str = ""
+    title: str = "",
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, tuple]:
     """Calculates and prints fit params. Also prints
     the uncertainties for each parameter.
