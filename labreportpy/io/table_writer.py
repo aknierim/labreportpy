@@ -4,19 +4,34 @@ from pathlib import Path
 
 class TableWriter:
     r"""Simple class to convert data from a DataFrame to
-    a LaTeX tabularx/tabularray readable format. Either
-    print out and copy the output of 'table_writer' or
-    (better) save it to a .tex file and use
-    ``\input{your_table_file.tex}`` inside your tabularx
-    or tabularray environment.
+        a LaTeX tabularx/tabularray readable format. Either
+        print out and copy the output of 'table_writer' or
+        (better) save it to a .tex file and use
+        begin{tflr}[evaluate=\filwith  thethe optiion
+        ``\begin{tblr}[evaluate=\fileInput]``
+        inside your tabularx
+        ``\FileInput{your_table_file.tex}`` inside your tabularx
+        or tabularray environment.
+
+
+        Parameters
+        ----------
+        base_dir : str or Path
+            Base directory to write to.
     """
 
     def __init__(self, base_dir: str or Path = "") -> None:
+        """Initializes the table writer with a  base directory.
+
+        Parameters
+        ----------
+        base_dir : str or Path
+            Base directory to write to.
+        """
         if not isinstance(base_dir, Path):
             base_dir = Path(base_dir)
 
         self.base_dir = base_dir
-
 
     def __call__(
         self,
@@ -88,7 +103,6 @@ class TableWriter:
             booktabs,
         )
 
-
     def write_inner(self, write_to_file: bool = True) -> str:
         """
         Writes a inner table to a .tex file.
@@ -114,7 +128,6 @@ class TableWriter:
                 f.write(table)
 
         return table
-
 
     def _write_table(
         self,
@@ -234,7 +247,6 @@ class TableWriter:
         with open(self.base_dir / output_file, "w") as f:
             f.write(table)
 
-
     def from_df(self, df: pd.DataFrame, output_file: str or Path) -> None:
         """
         Initializes the class with data from a DataFrame.
@@ -248,7 +260,6 @@ class TableWriter:
         """
         self.df = df
         self.output_file = output_file
-
 
     def from_file(
         self, input_file: str or Path, output_file: str or Path = None
