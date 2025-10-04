@@ -2,13 +2,13 @@
 Functions to automatically change foreground colors of given object depending
 on the background color of either the used colormap or the figure.
 """
+
 from matplotlib import cm
 from PIL import ImageColor
 
 
-def auto_color(color, tolerance=186):
-    """
-    Changes color of an object to black or white depending
+def auto_color(color: str, tolerance: int | float = 186) -> str:
+    """Changes color of an object to black or white depending
     on the (background) color you pass to this function.
 
     Parameters
@@ -33,9 +33,12 @@ def auto_color(color, tolerance=186):
     return color
 
 
-def auto_color_cmap(data_value, cmap, tolerance=0.45):
-    """
-    Changes color of an object to black or white depending
+def auto_color_cmap(
+    data_value: float,
+    cmap: str,
+    tolerance: float = 0.45,
+) -> str:
+    """Changes color of an object to black or white depending
     on the colormap and the data_value you pass to this function.
 
     Parameters

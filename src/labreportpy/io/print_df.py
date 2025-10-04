@@ -1,13 +1,9 @@
 import pandas as pd
-from rich.table import Table
 from rich.console import Console
+from rich.table import Table
 
 
-def print_df(
-    df: pd.DataFrame,
-    index: bool=True,
-    title: str=""
-) -> None:
+def print_df(df: pd.DataFrame, index: bool = True, title: str = "") -> None:
     """
     Converts and prints a pd.DataFrame to a ``rich.Table``.
 
@@ -22,11 +18,7 @@ def print_df(
     """
     console = Console()
 
-    table = Table(
-        title=title,
-        box=None,
-        header_style="bold magenta"
-    )
+    table = Table(title=title, box=None, header_style="bold magenta")
 
     if index:
         table.add_column("")
@@ -35,6 +27,6 @@ def print_df(
         table.add_column(col)
 
     for i in df.itertuples(index=index):
-        table.add_row(*map(str,i))
+        table.add_row(*map(str, i))
 
     console.print(table)

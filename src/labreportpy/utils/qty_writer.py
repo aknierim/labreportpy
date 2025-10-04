@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import numpy as np
 from uncertainties import ufloat, ufloat_fromstr
 
@@ -32,10 +33,10 @@ class QTYWriter:
 
     def write_value(
         self,
+        filename: str | Path,
         val: ufloat,
         unit: str = "",
         prec: int = 3,
-        filename: str or Path = "",
     ) -> None:
         """Writes given value/quantity to .tex file.
 
@@ -51,15 +52,9 @@ class QTYWriter:
         filename: str
             Name of the file to write to.
         """
-        if filename == "" or filename == Path(""):
-            raise ValueError("No 'filename' provided!")
-
         val = str(val).split("e")
 
-        if len(val) < 2:
-            exp = ""
-        else:
-            exp = "e" + val[1]
+        exp = "" if len(val) < 2 else "e" + val[1]
 
         val = ufloat_fromstr(val[0])
 

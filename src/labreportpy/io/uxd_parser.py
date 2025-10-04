@@ -2,10 +2,12 @@
 A class to handle (i.e. read, write, and parse) .UXD files
 from different scans written by a Bruker D8 XRD system.
 """
+
 import warnings
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
 
 
 class UXDparser:
@@ -58,7 +60,7 @@ class UXDparser:
             file = Path(file)
         if not (self.base_dir / file).exists():
             raise FileNotFoundError(
-                f"Please make sure the file '{self.base_dir/file}' exists!"
+                f"Please make sure the file '{self.base_dir / file}' exists!"
             )
         if file.suffix not in (".UXD", ".uxd"):
             raise ValueError("Expected a .UXD/.uxd file as input!")
@@ -116,7 +118,8 @@ class UXDparser:
                 # Fallback, if no match
                 warnings.warn(
                     "No match found for _DRIVE type, fallback to default\
-                    columns 'A' and 'B'!"
+                    columns 'A' and 'B'!",
+                    stacklevel=2,
                 )
                 cols = {"A": col1, "B": col2}
 

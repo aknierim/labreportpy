@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 import numpy as np
 from rich.console import Console
 from rich.table import Table
@@ -7,7 +9,7 @@ from . import param_fmt
 
 
 def fit(
-    func,
+    func: Callable,
     xdata: np.ndarray,
     ydata: np.ndarray,
     p0: np.ndarray | list | None = None,

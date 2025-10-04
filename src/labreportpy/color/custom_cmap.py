@@ -1,6 +1,7 @@
 """
 A simple function to create a colormap for a passed list of colors.
 """
+
 import matplotlib.pyplot as plt
 import numpy as np
 from colour import Color
@@ -8,8 +9,7 @@ from matplotlib.colors import LinearSegmentedColormap
 
 
 def custom_cmap(color_list: list) -> LinearSegmentedColormap:
-    """
-    Creates a colormap to a given list of colors.
+    """Creates a colormap to a given list of colors.
     Also provides a preview of the colormap via plt.imshow().
 
     Parameters

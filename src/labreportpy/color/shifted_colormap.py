@@ -1,16 +1,22 @@
 """
 From: https://stackoverflow.com/a/20528097
 """
+
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
 
-def shiftedColorMap(cmap, start=0, midpoint=0.5, stop=1.0, name="shiftedcmap"):
-    """
-    Function to offset the "center" of a colormap. Useful for
-    data with a negative min and positive max and you want the
-    middle of the colormap's dynamic range to be at zero.
+def shiftedColorMap(
+    cmap,
+    start: float = 0,
+    midpoint: float = 0.5,
+    stop: float = 1.0,
+    name="shiftedcmap",
+):
+    """Function to offset the "center" of a colormap. Useful
+    for data with a negative min and positive max and you want
+    the middle of the colormap's dynamic range to be at zero.
 
     Parameters
     ----------

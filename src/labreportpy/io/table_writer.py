@@ -1,23 +1,24 @@
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 
 class TableWriter:
     r"""Simple class to convert data from a DataFrame to
-        a LaTeX tabularx/tabularray readable format. Either
-        print out and copy the output of 'table_writer' or
-        (better) save it to a .tex file and use
-        begin{tflr}[evaluate=\filwith  thethe optiion
-        ``\begin{tblr}[evaluate=\fileInput]``
-        inside your tabularx
-        ``\FileInput{your_table_file.tex}`` inside your tabularx
-        or tabularray environment.
+    a LaTeX tabularx/tabularray readable format. Either
+    print out and copy the output of 'table_writer' or
+    (better) save it to a .tex file and use
+    begin{tflr}[evaluate=\filwith  thethe optiion
+    ``\begin{tblr}[evaluate=\fileInput]``
+    inside your tabularx
+    ``\FileInput{your_table_file.tex}`` inside your tabularx
+    or tabularray environment.
 
 
-        Parameters
-        ----------
-        base_dir : str or Path
-            Base directory to write to.
+    Parameters
+    ----------
+    base_dir : str or Path
+        Base directory to write to.
     """
 
     def __init__(self, base_dir: str or Path = "") -> None:
@@ -37,10 +38,10 @@ class TableWriter:
         self,
         df: pd.DataFrame,
         output_file: str | Path,
-        quantities: list = [],
-        units: list = [],
-        colspec: list = [],
-        table_options: list = [],
+        quantities: list = None,
+        units: list = None,
+        colspec: list = None,
+        table_options: list = None,
         caption: str = "",
         label: str = "",
         header_math_mode: bool = True,
@@ -88,6 +89,15 @@ class TableWriter:
             macros, that are defined by the `booktabs` package. If
             `False`, the `hline` macro is used instead.
         """
+        if quantities is None:
+            quantities = []
+        if units is None:
+            units = []
+        if colspec is None:
+            colspec = []
+        if table_options is None:
+            table_options = []
+
         self.df = df
 
         return self._write_table(
@@ -133,10 +143,10 @@ class TableWriter:
         self,
         df: pd.DataFrame,
         output_file: str or Path,
-        quantities: list = [],
-        units: list = [],
-        colspec: list or str = [],
-        table_options: list = [],
+        quantities: list = None,
+        units: list = None,
+        colspec: list or str = None,
+        table_options: list = None,
         caption: str = "",
         label: str = "",
         header_math_mode: bool = True,
@@ -184,6 +194,15 @@ class TableWriter:
             macros, that are defined by the `booktabs` package. If
             `False`, the `hline` macro is used instead.
         """
+        if quantities is None:
+            quantities = []
+        if units is None:
+            units = []
+        if colspec is None:
+            colspec = []
+        if table_options is None:
+            table_options = []
+
         if not output_file:
             raise ValueError("No output file specified.")
 
@@ -223,10 +242,7 @@ class TableWriter:
 
         head_list = []
         for qty, unit in zip(quantities, units):
-            if unit != "":
-                s = str(qty) + r" \mathbin{/} " + r"\unit{unit}"
-            else:
-                s = str(qty)
+            s = str(qty) + r" \mathbin{/} " + r"\unit{unit}" if unit != "" else str(qty)
 
             head_list.append(s)
 
@@ -280,7 +296,7 @@ class TableWriter:
             A LaTeX (tabularx/tabularray) compatible string.
         """
         # check if input file is a .txt
-        if not input_file.split(".")[-1] == "txt":
+        if input_file.split(".")[-1] != "txt":
             self.df = pd.read_csv(input_file)
         else:
             # read data from .txt, header is first row, use
