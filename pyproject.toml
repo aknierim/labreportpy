@@ -1,9 +1,9 @@
 [build-system]
-requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
 
 [project]
-name = "pyvisgen"
+name = "labreportpy"
 dynamic = ["version"]
 description = "Small collection of tools for lab reports in physics."
 readme = "README.md"
@@ -16,16 +16,14 @@ maintainers = [
 license = { text = "MIT" }
 classifiers = [
   "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering :: Physics",
-  "Topic :: Scientific/Engineering :: Information Analysis",
   "Development Status :: 4 - Beta",
 ]
 
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 
 dependencies = [
   "click",
@@ -36,13 +34,63 @@ dependencies = [
   "toml",
   "tqdm",
   "rich",
+  "rich-click",
 ]
 
-[tool.setuptools_scm]
-write_to = "labreportpy/_version.py"
+[dependency-groups]
+tests = [
+  "coverage",
+  "h5py",
+  "pytest",
+  "pytest-cov",
+  "pytest-order",
+  "pytest-xdist",
+  "restructuredtext-lint",
+  "tomli",
+]
 
-[tool.setuptools.packages.find]
-where = ["."]
+docs = [
+  "graphviz",
+  "ipython",
+  "jupyter",
+  "linkify-it-py",
+  "matplotlib",
+  "myst-parser",
+  "nbsphinx",
+  "notebook",
+  "numpydoc",
+  "pydata-sphinx-theme",
+  "sphinx-autobuild",
+  "sphinx-automodapi",
+  "sphinx-changelog",
+  "sphinx-copybutton",
+  "sphinx-design",
+  "sphinx-gallery",
+  "sphinx-tippy",
+  "sphinx-togglebutton",
+  "sphinx",
+  "sphinxcontrib-bibtex",
+]
+
+dev = [
+  "ipython",
+  "jupyter",
+  "pre-commit",
+  {include-group = "tests"},
+  {include-group = "docs"},
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/labreportpy/_version.py"
+
+[tool.hatch.build.targets.wheel]
+include = ["src/labreportpy"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/labreportpy" = "labreportpy"
 
 [tool.towncrier]
     package = "labreportpy"
@@ -79,4 +127,36 @@ where = ["."]
     [[tool.towncrier.section]]
         name = ""
         path = ""
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+extend-exclude = ["tests", "examples"]
+
+[tool.ruff.lint]
+extend-select = [
+  "I",  # isort
+  "E", # pycodestyle
+  "F", # Pyflakes
+  "UP", # pyupgrade
+  "B", # flake8-bugbear
+  "SIM", # flake8-simplify
+]
+ignore = ["B905"]
+
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"examples/**" = ["I"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+skip-magic-trailing-comma = false
+docstring-code-format = true
+
+[tool.ruff.lint.isort]
+known-first-party = ["labreportpy"]
 
