@@ -13,4 +13,3 @@
 {% endif %} {% if sections[section][category]|length == 0 %} No significant changes.
 
 {% else %} {% endif %} {% else %} {# No significant changes. #} {% endif %} {% endfor %} {% endfor %}
-

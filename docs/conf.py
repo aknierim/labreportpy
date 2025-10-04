@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-import os
 import datetime
-
+import os
 from configparser import ConfigParser
 
 import labreportpy
@@ -55,9 +53,7 @@ def setup(app):
     app.add_css_file("labreportpy.css")
 
 
-nitpick_ignore = [
-    ("py:class", "uncertainties.core.ufloat")
-]
+nitpick_ignore = [("py:class", "uncertainties.core.ufloat")]
 
 exclude_patterns = [
     "_build",
