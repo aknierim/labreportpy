@@ -6,4 +6,3 @@ df = pd.read_csv("tests/test_data.csv", skiprows=1)
 writer = TableWriter()
 
 writer(df, output_file="tests/table.tex")
-
