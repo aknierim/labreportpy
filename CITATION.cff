@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: labreportpy
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Anno
+    family-names: Knierim
+    email: anno.knierim@tu-dortmund.de
+    affiliation: 'TU Dortmund University, Germany'
+    orcid: 'https://orcid.org/0009-0004-8728-2879'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.17333731
+repository-code: 'https://github.com/aknierim/labreportpy'
+url: 'https://labreportpy.readthedocs.io/'
+keywords:
+  - Physics
+  - Lab report
+license: MIT
