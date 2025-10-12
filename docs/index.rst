@@ -33,6 +33,7 @@ the analysis of data obtained in experiments in laboratory courses for physics.
   developer-guide/index
   api-reference/index
   changelog
+  citeus
 
 
 .. grid:: 1 2 2 3
