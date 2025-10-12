@@ -5,7 +5,9 @@ from rich.console import Console
 from rich.table import Table
 from scipy.optimize import curve_fit
 
-from . import param_fmt
+from labreportpy.utils import param_fmt
+
+__all__ = ["fit"]
 
 
 def fit(
@@ -15,6 +17,7 @@ def fit(
     p0: np.ndarray | list | None = None,
     fmt: int = 3,
     title: str = "",
+    **kwargs,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, tuple]:
     """Calculates and prints fit params. Also prints
     the uncertainties for each parameter.
@@ -44,11 +47,14 @@ def fit(
         If None, then the initial values will all be 1
         (if the number of parameters for the function
         can be determined using introspection, otherwise
-        a ValueError is raised).
-    fmt: int
-        Number of decimal places to format.
-    title: str
-        Additional title for the table.
+        a ValueError is raised). Default: ``None``
+    fmt: int, optional
+        Number of decimal places to format. Default: ``3``
+    title: str, optional
+        Additional title for the table. Default: ``''``
+
+    **kwargs
+        Additional kwargs to :func:`scipy.optimize.curve_fit`
 
     Returns
     -------
@@ -67,7 +73,7 @@ def fit(
     """
     vars = func.__code__.co_varnames
 
-    params, cov = curve_fit(f=func, xdata=xdata, ydata=ydata, p0=p0)
+    params, cov = curve_fit(f=func, xdata=xdata, ydata=ydata, p0=p0, **kwargs)
 
     console = Console()
     table = Table(

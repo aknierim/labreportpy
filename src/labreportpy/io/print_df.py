@@ -5,7 +5,7 @@ from rich.table import Table
 
 def print_df(df: pd.DataFrame, index: bool = True, title: str = "") -> None:
     """
-    Converts and prints a pd.DataFrame to a ``rich.Table``.
+    Converts and prints a pd.DataFrame to a :class:`~rich.table.Table`.
 
     Parameters
     ----------

@@ -2,6 +2,8 @@ from pathlib import Path
 
 import pandas as pd
 
+__all__ = ["TableWriter"]
+
 
 class TableWriter:
     r"""Simple class to convert data from a DataFrame to

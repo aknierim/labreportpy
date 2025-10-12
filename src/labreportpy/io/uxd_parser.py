@@ -9,14 +9,16 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+__all__ = ["UXDparser"]
+
 
 class UXDparser:
     """
     A class to handle .UXD files from X, Z, theta and
     2theta-omega scans from a Bruker D8 XRD system.
 
-    Get metadata by accessing the ``UXDparser.meta``
-    variable.
+    Access metadata through the ``UXDparser.meta``
+    attribute.
 
     Parameters
     ----------
@@ -133,12 +135,13 @@ class UXDparser:
 
         Parameters
         ----------
-        file : Path | str
+        file : Path or str
             Output file to save to.
-        sep : str, default ','
+        sep : str, optional
             String of length 1. Field delimiter for the output file.
+            Default: ``','``
         **kwargs :
-            Additional kwargs.
+            Additional kwargs to :meth:`pandas.DataFrame.to_csv`.
 
         """
         if isinstance(file, str):

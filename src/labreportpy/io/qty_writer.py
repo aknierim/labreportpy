@@ -3,6 +3,8 @@ from pathlib import Path
 import numpy as np
 from uncertainties import ufloat, ufloat_fromstr
 
+__all__ = ["QTYWriter"]
+
 
 class QTYWriter:
     """
@@ -23,7 +25,7 @@ class QTYWriter:
         build_dir : str or Path
             Path to the base directory.
         """
-        if build_dir == "" or build_dir == Path(""):
+        if not build_dir:
             raise ValueError("No base directory provided!")
 
         self.build_dir = build_dir
@@ -42,15 +44,16 @@ class QTYWriter:
 
         Parameters
         ----------
-        val : ufloat
-            Value/quantity to write to file.
-        unit : str
-            Unit of the quantity. If left empty, a
-            number ``\\num{}`` is written instead.
-        prec : int
-            Precision for rounding.
         filename: str
             Name of the file to write to.
+        val : ufloat
+            Value/quantity to write to file.
+        unit : str, optional
+            Unit of the quantity. If left empty, a
+            number ``\\num{}`` is written instead.
+            Default: ``''``
+        prec : int, optional
+            Precision for rounding. Default: ``3``
         """
         val = str(val).split("e")
 

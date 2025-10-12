@@ -1,7 +1,3 @@
-"""
-Formats params and uncertainties to a combined string for printing.
-"""
-
 import numpy as np
 
 
