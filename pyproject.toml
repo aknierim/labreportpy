@@ -30,8 +30,9 @@ dependencies = [
   "matplotlib",
   "numpy",
   "pandas",
-  "scipy",
   "rich",
+  "scipy",
+  "uncertainties",
 ]
 
 [dependency-groups]
