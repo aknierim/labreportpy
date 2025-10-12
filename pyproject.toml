@@ -31,10 +31,7 @@ dependencies = [
   "numpy",
   "pandas",
   "scipy",
-  "toml",
-  "tqdm",
   "rich",
-  "rich-click",
 ]
 
 [dependency-groups]
@@ -46,7 +43,6 @@ tests = [
   "pytest-order",
   "pytest-xdist",
   "restructuredtext-lint",
-  "tomli",
 ]
 
 docs = [
