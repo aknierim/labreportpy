@@ -2,39 +2,35 @@
 import numpy as np
 
 
-def lin_fit(x, a, b):
+def lin_fit(x: np.ndarray, a: float, b: float) -> np.ndarray:
     return a * x + b
 
 
-def exp_fit(x, a, b, c):
+def exp_fit(x: np.ndarray, a: float, b: float, c: float) -> np.ndarray:
     return a * np.exp(-b * x) + c
 
 
-def gauss_fit(x, a, b, c):
+def gauss_fit(x: np.ndarray, a: float, b: float, c: float) -> np.ndarray:
     return a * np.exp(-((x - b) ** 2) / (2 * c**2))
 
 
-def gauss_fit2(x, a, b, c, d, e, f):
+def gauss_fit2(
+    x: np.ndarray,
+    a: float,
+    b: float,
+    c: float,
+    d: float,
+    e: float,
+    f: float,
+) -> np.ndarray:
     return a * np.exp(-((x - b) ** 2) / (2 * c**2)) + d * np.exp(
         -((x - e) ** 2) / (2 * f**2)
     )
 
 
-def poly2(x, a, b, c):
-    return a * x**2 + b * x + c
-
-
-def poly3(x, a, b, c, d):
-    return a * x**3 + b * x**2 + c * x + d
-
-
-def poly4(x, a, b, c, d, e):
-    return a * x**4 + b * x**3 + c * x**2 + d * x + e
-
-
-def poly5(x, a, b, c, d, e, f):
-    return a * x**5 + b * x**4 + c * x**3 + d * x**2 + e * x + f
-
-
-def weibull(x, a, b, c):
+def weibull(x: np.ndarray, a: float, b: float, c: float) -> np.ndarray:
     return a * b * x ** (b - 1) * np.exp(-a * x**b)
+
+
+def sigmoid(x: np.ndarray, a: float, b: float, c: float) -> np.ndarray:
+    a / (1 + np.exp(-(x - b))) + c
