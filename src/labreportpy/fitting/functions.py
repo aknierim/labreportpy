@@ -33,4 +33,4 @@ def weibull(x: np.ndarray, a: float, b: float, c: float) -> np.ndarray:
 
 
 def sigmoid(x: np.ndarray, a: float, b: float, c: float) -> np.ndarray:
-    a / (1 + np.exp(-(x - b))) + c
+    return a / (1 + np.exp(-(x - b))) + c
