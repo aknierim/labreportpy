@@ -7,7 +7,7 @@ from matplotlib import cm
 from PIL import ImageColor
 
 
-def auto_color(color: str, tolerance: int | float = 186) -> str:
+def auto_color(color: str, tolerance: float = 186) -> str:
     """Changes color of an object to black or white depending
     on the (background) color you pass to this function.
 
